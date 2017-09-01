@@ -1,0 +1,20 @@
+- hosts: all
+  roles:
+     - config
+
+- hosts: all
+  roles: 
+     - multihost
+
+- hosts: all
+  roles:
+     - network
+
+- hosts:
+     - manager
+  roles:
+     - services
+
+- hosts: all
+  roles: 
+      - collect

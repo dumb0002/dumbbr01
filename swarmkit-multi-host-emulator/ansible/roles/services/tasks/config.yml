@@ -1,0 +1,4 @@
+- name: "Services Creation: adding services to the emulated swarm network "
+  script: "{{ config_directory }}/create_services.sh 1 {{ nsvc }}  {{ nrpl }}  {{ netname }}  {{ subnet }}  {{ svcname }}  {{ image }}" 
+  when:
+     - inventory_hostname in groups['manager']

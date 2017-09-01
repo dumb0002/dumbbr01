@@ -1,0 +1,12 @@
+- name: "Installing docker to target hosts"
+  script: "{{ config_directory }}/install_docker.sh"
+
+
+- name: "Copying daemon.json file to hosts"
+  copy:
+     src: "{{ config_directory }}/daemon.json"
+     dest: /tmp/daemon.json
+
+
+- name: "Configuring docker daemon to 'debug mode' "
+  script: "{{ config_directory }}/config.sh"

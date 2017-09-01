@@ -1,0 +1,14 @@
+
+- name: "Logging: starting to collect the emulated hosts log files"
+  script: "{{ config_directory }}/logging.sh  {{ number_host_agents }}"
+
+
+- name: "Logging: Creates log directory"
+  file: path=~/swarmkit_logs state=directory
+
+
+- name: "Logging: Fetching the emulated hosts log files"
+  synchronize:
+    mode: pull
+    src: "/tmp/logs/"
+    dest: "~/swarmkit_logs/"

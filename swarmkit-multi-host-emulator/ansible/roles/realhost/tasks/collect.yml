@@ -1,0 +1,18 @@
+- name: "Logging: creating the log directory at the remote host"
+  file: path=/tmp/logs state=directory
+
+
+- name: "Extracting the logs files from all the hosts"
+  shell: cp /var/log/upstart/docker.log  /tmp/logs/$(hostname -I | awk '{print $2}')-host.log
+
+
+
+- name: "Logging: Creates log directory"
+  file: path=~/swarmkit_logs state=directory
+
+
+- name: "Logging: Fetching the emulated hosts log files"
+  synchronize:
+    mode: pull
+    src: "/tmp/logs/"
+    dest: "~/swarmkit_logs/"

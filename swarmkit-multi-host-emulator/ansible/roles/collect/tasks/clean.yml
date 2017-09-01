@@ -1,0 +1,2 @@
+- name: "Clean-up: Removing all the containers and swarm clusters (from real & emulated hosts)"
+  script: "{{ config_directory }}/stop.sh"

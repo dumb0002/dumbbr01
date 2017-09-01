@@ -1,0 +1,9 @@
+- name: "Creating the overlay network for the emulated agents"
+  shell: docker network create --driver overlay --attachable --subnet  {{ agents_subnet }}  {{ agents_net }}
+  when:
+    - inventory_hostname in groups['manager']
+
+
+- name: "Building the emulated agents in each 'physical' host"
+  script: "{{ config_directory }}/create_containers.sh {{ number_host_agents }} {{ agents_net }}"
+

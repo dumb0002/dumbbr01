@@ -1,0 +1,16 @@
+##### k1: total number of managers nodes (Docker recommends three or five manager nodes per cluster to implement high availability)
+##### k2: total number of workers nodes
+##### k3: total number of services to be created
+##### k4: number of replicas per service
+##### k5: network name
+##### k6: network subnet
+##### k7: service name
+##### k8: docker image type (service image)
+k1=1
+k2=18
+k3=25
+k4=1
+k5=my-net
+k6=10.0.9.0/24
+k7=web
+k8=nginx

@@ -1,0 +1,34 @@
+config_directory: ~/swarmkit-multi-host-emulator
+
+############################
+# Emulation Agents options
+############################
+
+# Total number of emulated agents(hosts) for each physical hosts
+number_host_agents: 2
+
+agents_subnet: 196.168.56.0/24 
+
+agents_net: host-net
+
+###################################################
+# Emulated Agents Swarm Cluster & Services Options
+###################################################
+
+##  total number of services to be created
+nsvc: 10
+
+##  number of replicas per service
+nrpl: 1
+
+## network name
+netname: my-net
+
+## network subnet
+subnet: 10.0.9.0/24
+
+## service name
+svcname: web
+
+## docker image type (service image)
+image: nginx

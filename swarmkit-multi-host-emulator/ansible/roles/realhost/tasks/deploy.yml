@@ -1,0 +1,48 @@
+- name: "Installing docker to target hosts"
+  script: "{{ config_directory }}/install_docker.sh"
+
+
+- name: "Copying daemon.json file to hosts"
+  copy:
+     src: "{{ config_directory }}/daemon.json"
+     dest: /tmp/daemon.json
+
+
+- name: "Configuring docker daemon to 'debug mode' "
+  script: "{{ config_directory }}/config.sh"
+
+
+- name: "Creating Docker Multi-Host Swarm Cluster"
+  script: "{{ config_directory }}/multi_host_swarm_init.sh 1 1"
+  when:
+     - inventory_hostname in groups['manager']
+
+
+- name: "Copying the worker swarm tokens"
+  fetch:
+     src:  /tmp/multi_worker_join.txt
+     dest: /tmp/multi_worker_join.txt
+     flat: yes
+  when:
+    - inventory_hostname in groups['manager']
+
+
+
+- name: "Copying the worker file token to the worker nodes"
+  copy:
+       src:  /tmp/multi_worker_join.txt
+       dest: /tmp/multi_worker_join.txt
+  when:
+      - inventory_hostname in groups['worker']
+
+
+- name: "Adding Workers to the Docker Swarm Cluster"
+  script: "{{ config_directory }}/add_swarm_node.py  multi_worker_join.txt  1  {{ number_host_agents }}  1"
+  when:    
+     - inventory_hostname in groups['worker']
+
+
+- name: "Services Creation: adding services to the emulated swarm network "
+  script: "{{ config_directory }}/swarm_services.sh {{ nsvc }}  {{ nrpl }}  {{ netname }}  {{ subnet }}  {{ svcname }}  {{ image }}"
+  when:
+     - inventory_hostname in groups['manager']
