@@ -1,0 +1,17 @@
+
+- name: "Logging: starting to collect the emulated hosts log files"
+  script: "{{ config_directory }}/logging.sh  {{ number_host_agents }} {{ interface }} "
+
+
+- name: "Logging: Creates log directory"
+  file: path={{ config_directory }}/logs state=directory
+
+
+- name: "Logging: Fetching the emulated hosts log files (1)"
+  shell: (cd /tmp/logs/; find . -maxdepth 1 -type f) | cut -d'/' -f2
+  register: files_to_copy
+
+
+- name: "Logging: Fetching the emulated hosts log files (2)"
+  fetch: src=/tmp/logs/{{ item }} dest="{{ config_directory }}/logs/"
+  with_items: "{{ files_to_copy.stdout_lines }}"

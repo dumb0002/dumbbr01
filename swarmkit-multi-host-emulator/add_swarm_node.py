@@ -15,13 +15,14 @@ import shlex
 
 class addSwarmNode (multiprocessing.Process):
 
-  def __init__(self, fname, begin, end, option):
+  def __init__(self, fname, begin, end, option, eth):
 
         multiprocessing.Process.__init__(self)
         self.fname = fname
         self.begin = int(begin)
         self.end = int(end)
         self.option = int(option)
+        self.eth = eth
 
   def get_containerIp(self, cid):
       output = subprocess.check_output("docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' " + str(cid), shell=True)
@@ -29,7 +30,7 @@ class addSwarmNode (multiprocessing.Process):
 
 
   def get_hostIp(self):
-      output = subprocess.check_output("hostname -I | awk '{print $2}' ", shell=True)
+      output = subprocess.check_output("/sbin/ifconfig " + self.eth + " | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'", shell=True)
       ip = output.strip("\n").strip()
       return ip
 
@@ -67,5 +68,5 @@ class addSwarmNode (multiprocessing.Process):
 if __name__ == "__main__":
 
     # Run  Process 1
-    addSwarmNode = addSwarmNode (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    addSwarmNode = addSwarmNode (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     addSwarmNode.start()

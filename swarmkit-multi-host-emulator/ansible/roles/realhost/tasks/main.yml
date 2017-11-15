@@ -1,1 +1,1 @@
-- include: "{{ action }}.yml"
+- import_tasks: "{{ action }}.yml"

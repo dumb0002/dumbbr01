@@ -1,0 +1,9 @@
+- name: "Creating calico networks "
+  script: "{{ config_directory }}/build_network.sh {{ netname }} {{ item }} {{ interface }}"
+  with_sequence: count={{ netnum }} 
+  when:
+     - inventory_hostname in groups['manager']
+
+
+- name: "Building the workload for the calico networks"
+  script: "{{ config_directory }}/create_services.sh   {{ netname }}  {{ image }}  {{ netnum }} {{ number_host_agents }}  {{ nwl }}  {{ interface }}"

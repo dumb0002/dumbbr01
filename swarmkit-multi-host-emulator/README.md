@@ -9,20 +9,20 @@ IP address to each group.
 ### Install docker in the emulation hosts
 
 ```bash
- ansible-playbook  -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=install
+ ansible-playbook -K -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=install
 ```
 
 
 ### Deploy the experiments on the emulation hosts
 
 ```bash
- ansible-playbook  -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=deploy
+ ansible-playbook -K -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=deploy
 ```
 
 ### Collect the log files from all the emulation hosts
 
 ```bash
- ansible-playbook  -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=collect
+ ansible-playbook -K -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=collect
 ```
 
 
@@ -30,7 +30,7 @@ IP address to each group.
 ### Clean up environment
 
 ```bash
- ansible-playbook  -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=clean
+ ansible-playbook -K -i ansible/inventory/hosts ansible/emulation_experiment.yml -e action=clean
 ```
 
 ### Note: to run experiments with real hosts replace the file "emulation_experiment.yml" with "real_experiment.yml"  in the above commands

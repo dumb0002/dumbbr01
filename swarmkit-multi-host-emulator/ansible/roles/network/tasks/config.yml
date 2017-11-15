@@ -5,5 +5,5 @@
 
 
 - name: "Building the emulated agents in each 'physical' host"
-  script: "{{ config_directory }}/create_containers.sh {{ number_host_agents }} {{ agents_net }}"
+  script: "{{ config_directory }}/create_containers.sh {{ number_host_agents }} {{ agents_net }}  {{ interface }}"
 

@@ -1,0 +1,24 @@
+- hosts: all
+  become: true
+  roles:
+    - config
+
+- hosts: all
+  become: true
+  roles: 
+     - multihost
+
+- hosts: all
+  become: true
+  roles:
+     - network
+
+- hosts: all
+  become: true
+  roles:
+      - services
+
+- hosts: all
+  become: true
+  roles: 
+      - collect

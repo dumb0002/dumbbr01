@@ -1,19 +1,24 @@
-config_directory: ~/swarmkit-multi-host-emulator
+config_directory: /Users/dumb0002/Dropbox/summer_research_2017/ibm_research/source-code/repository/swarmKit-Emulator/swarmkit-multi-host-emulator
 
 ############################
 # Emulation Agents options
 ############################
 
 # Total number of emulated agents(hosts) for each physical hosts
-number_host_agents: 2
+number_host_agents: 1
 
 agents_subnet: 196.168.56.0/24 
 
 agents_net: host-net
 
+interface: eth0
+
 ###################################################
 # Emulated Agents Swarm Cluster & Services Options
 ###################################################
+
+##  total number of networks to be create
+netnum: 3
 
 ##  total number of services to be created
 nsvc: 10
@@ -22,10 +27,7 @@ nsvc: 10
 nrpl: 1
 
 ## network name
-netname: my-net
-
-## network subnet
-subnet: 10.0.9.0/24
+netname: net
 
 ## service name
 svcname: web

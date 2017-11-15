@@ -1,5 +1,5 @@
 - name: "Creating the swarm cluster for the emulated agents"
-  script: "{{ config_directory }}/multi_host_swarm_init.sh 1 2"
+  script: "{{ config_directory }}/multi_host_swarm_init.sh 1 2  {{ interface }}"
   when:
       - inventory_hostname in groups['manager']
 
@@ -21,12 +21,12 @@
 
 
 - name: "Adding the (agents)worker nodes to the emulated swarm cluster"
-  script: "{{ config_directory }}/add_swarm_node.py  emulated_worker_join.txt  1  {{ number_host_agents }}  2"
+  script: "{{ config_directory }}/add_swarm_node.py  emulated_worker_join.txt  1  {{ number_host_agents }}  2  {{ interface }}"
   when:
       - inventory_hostname in groups['worker']
 
 
 - name: "Adding the (agents)worker nodes to the emulated swarm cluster"
-  script: "{{ config_directory }}/add_swarm_node.py  emulated_worker_join.txt  2  {{ number_host_agents }}  2"
+  script: "{{ config_directory }}/add_swarm_node.py  emulated_worker_join.txt  2  {{ number_host_agents }}  2  {{ interface }}"
   when:
       - inventory_hostname in groups['manager']

@@ -1,0 +1,45 @@
+- name: "Measuring CPU and RAM for each physical host"
+  shell: | 
+     rm -r /tmp/logs
+     mkdir /tmp/logs
+     dstat --time -c  -m  --output /tmp/logs/memory_cpu_$(/sbin/ifconfig {{ interface }} | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}').txt 1 &
+  async: 86400
+  poll: 0
+
+
+- name: "Starting etcdv3.2.9 node"
+  shell: bash /tmp/start_etcd.sh {{ interface }}
+  async: 315569260
+  poll: 0
+  when:
+    - inventory_hostname in groups['manager']
+
+
+- name: "Creating Docker Multi-Host Swarm Cluster"
+  script: "{{ config_directory }}/multi_host_swarm_init.sh 1 1  {{ interface }}"
+  when:
+     - inventory_hostname in groups['manager']
+
+
+- name: "Copying the worker swarm tokens"
+  fetch:
+     src:  /tmp/multi_worker_join.txt
+     dest: /tmp/multi_worker_join.txt
+     flat: yes
+  when:
+    - inventory_hostname in groups['manager']
+
+
+
+- name: "Copying the worker file token to the worker nodes"
+  copy:
+       src:  /tmp/multi_worker_join.txt
+       dest: /tmp/multi_worker_join.txt
+  when:
+      - inventory_hostname in groups['worker']
+
+
+- name: "Adding Workers to the Docker Swarm Cluster"
+  script: "{{ config_directory }}/add_swarm_node.py  multi_worker_join.txt  1  {{ number_host_agents }}  1"
+  when:    
+     - inventory_hostname in groups['worker']

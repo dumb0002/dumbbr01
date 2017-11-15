@@ -1,0 +1,41 @@
+- name: "Installing docker to target hosts"
+  script: "{{ config_directory }}/install_docker.sh"
+
+- name: "Copying daemon.json file to hosts"
+  copy:
+     src: "{{ config_directory }}/daemon.json"
+     dest: /tmp/daemon.json
+
+
+- name: "Configuring docker daemon to 'debug mode' "
+  script: "{{ config_directory }}/config.sh {{ etcd_store_ip }}"
+
+
+- name: "Installing Calico "
+  script: "{{ config_directory }}/install_calico.sh"
+
+- name: "Copying calico helper files "
+  copy: src={{ item.src }}  dest={{ item.dest }}
+  with_items:
+     - { src: "{{ config_directory }}/calico_helper.sh", dest: "/tmp/calico_helper.sh" }
+     - { src: "{{ config_directory }}/calico_helper.py", dest: "/tmp/calico_helper.py" }
+
+- name: "Installing etcdv3.2.9 datastore"
+  script: "{{ config_directory }}/install_etcdv3-2-9.sh"
+  when:
+    - inventory_hostname in groups['manager']
+
+- name: "Copying etcd scripts to manager node"
+  copy:
+     src: "{{ config_directory }}/start_etcd.sh"
+     dest: /tmp/start_etcd.sh
+  when:
+    - inventory_hostname in groups['manager']
+
+
+#- name: "Starting etcdv3.2.9 node"
+#  shell: bash /tmp/start_etcd.sh {{ interface }}
+#  async: 315569260
+#  poll: 0
+#  when:
+#    - inventory_hostname in groups['manager']

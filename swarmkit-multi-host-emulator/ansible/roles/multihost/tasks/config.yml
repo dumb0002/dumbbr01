@@ -2,13 +2,13 @@
   shell: | 
      rm -r /tmp/logs
      mkdir /tmp/logs
-     dstat --time -c  -m  --output /tmp/logs/memory_cpu_$(hostname -I | awk '{print $2}').txt 1 &
+     dstat --time -c  -m  --output /tmp/logs/memory_cpu_$(/sbin/ifconfig {{ interface }} | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}').txt 1 &
   async: 86400
   poll: 0
 
 
 - name: "Creating Docker Multi-Host Swarm Cluster"
-  script: "{{ config_directory }}/multi_host_swarm_init.sh 1 1"
+  script: "{{ config_directory }}/multi_host_swarm_init.sh 1 1  {{ interface }}" 
   when:
      - inventory_hostname in groups['manager']
 
@@ -32,6 +32,6 @@
 
 
 - name: "Adding Workers to the Docker Swarm Cluster"
-  script: "{{ config_directory }}/add_swarm_node.py  multi_worker_join.txt  1  {{ number_host_agents }}  1"
+  script: "{{ config_directory }}/add_swarm_node.py  multi_worker_join.txt  1  {{ number_host_agents }}  1 {{ interface }}"
   when:    
      - inventory_hostname in groups['worker']

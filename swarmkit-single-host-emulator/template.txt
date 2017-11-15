@@ -6,7 +6,7 @@
 ##### k6: network subnet
 ##### k7: service name
 ##### k8: docker image type (service image)
-k1=1
+k1=3
 k2=18
 k3=25
 k4=1

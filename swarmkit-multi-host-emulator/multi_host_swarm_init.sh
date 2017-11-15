@@ -1,9 +1,12 @@
 #!/bin/bash
 
-c=$1 # controller Id
-option=$2  # option selection
+c=$1; # controller Id
+option=$2;  # option selection
+eth=$3;  # interface
 
-ip=$(hostname -I | awk '{print $2}')
+#ip=$(hostname -I | awk '{print $2}')
+ip=$(/sbin/ifconfig $eth | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
+
 
 if [ $option == 1 ]; then
     docker swarm  init --advertise-addr $ip  

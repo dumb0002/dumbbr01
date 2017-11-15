@@ -1,0 +1,7 @@
+- name: "Clean-up: cleaning the etcdv3 datastore "
+  shell: curl http://127.0.0.1:2379/v2/keys/docker?recursive=true -XDELETE && curl http://127.0.0.1:2379/v2/keys/calico?recursive=true -XDELETE
+  when:
+    - inventory_hostname in groups['manager']
+
+- name: "Clean-up: Removing all the containers and swarm clusters (from real & emulated hosts)"
+  script: "{{ config_directory }}/stop.sh"

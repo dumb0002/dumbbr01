@@ -1,0 +1,9 @@
+"Dstat 0.7.2 CSV output"
+"Author:","Dag Wieers <dag@wieers.com>",,,,"URL:","http://dag.wieers.com/home-made/dstat/"
+"Host:","mist48-umh",,,,"User:","root"
+"Cmdline:","dstat --time -c -m --output /tmp/logs/memory_cpu_128.101.118.108.txt 1",,,,"Date:","14 Nov 2017 20:21:35 CST"
+
+"system","total cpu usage",,,,,,"memory usage",,,
+"time","usr","sys","idl","wai","hiq","siq","used","buff","cach","free"
+14-11 20:21:35,0.072,0.037,99.880,0.010,0.000,0.001,989782016.0,250077184.0,1211916288.0,64856260608.0
+14-11 20:21:36,1.703,0.166,98.007,0.083,0.0,0.042,988725248.0,250077184.0,1211928576.0,64857305088.0

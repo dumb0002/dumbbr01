@@ -1,4 +1,5 @@
 - name: "Services Creation: adding services to the emulated swarm network "
-  script: "{{ config_directory }}/create_services.sh 1 {{ nsvc }}  {{ nrpl }}  {{ netname }}  {{ subnet }}  {{ svcname }}  {{ image }}" 
+  script: "{{ config_directory }}/create_services.sh 1 {{ nsvc }}  {{ nrpl }}  {{ netname }}  {{ item }}  {{ svcname }}  {{ image }} {{ interface }}"
+  with_sequence: count={{ netnum }}
   when:
      - inventory_hostname in groups['manager']

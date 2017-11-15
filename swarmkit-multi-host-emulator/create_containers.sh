@@ -2,8 +2,10 @@
 
 n=$1; # total number of containers
 net=$2  # overlay network name
+eth=$3;  # interface
 
-ip=$(hostname -I | awk '{print $2}') # hostname ipaddress
+#ip=$(hostname -I | awk '{print $2}') # hostname ipaddress
+ip=$(/sbin/ifconfig $eth | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 
 sleep 3
 
